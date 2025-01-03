@@ -140,5 +140,64 @@ AND v1.id_vol < v2.id_vol :
 Cette condition assure que chaque paire de vols est listée une seule fois en évitant les doublons (par exemple, (Id1, Id2) et (Id2, Id1)).
 Cette requête permet de détecter les conflits potentiels entre vols qui suivent le même trajet en sens inverse le même jour et à un même niveau, en listant les couples d'identifiants de vols concernés.
 
+II.A.2) Complexité de la fonction en fonction de 
+n
+La matrice conflit est de taille 
+3
+n
+×
+3
+n
+, où 
+n
+ est le nombre de vols. La fonction nb_conflits parcourt la moitié supérieure de cette matrice (en excluant la diagonale) pour compter les éléments non nuls.
+
+Analyse de la complexité :
+La boucle extérieure ((i)) parcourt 
+3
+n
+ éléments.
+La boucle intérieure ((j)) parcourt en moyenne 
+3
+n
+2
+ éléments (car elle commence à 
+i
++
+1
+).
+Donc, la complexité en termes de nombre d'opérations est :
+
+O
+(
+(
+3
+n
+)
+⋅
+(
+3
+n
+/
+2
+)
+)
+O
+(
+9
+n
+2
+/
+2
+)
+O
+(
+n
+2
+)
+La complexité de la fonction nb_conflits est donc quadratique en fonction de 
+n
+, soit (\mathcal{O}(n^2)).
+
 
 
