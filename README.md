@@ -114,3 +114,31 @@ WHERE d.pays = 'France' AND a.pays = 'France' : Cette condition filtre les vols 
 AND jour = '2016-05-02' : Cette condition filtre les vols pour la journée du 2 mai 2016.
 Ainsi, cette requête fournit les numéros de vols qui partent et arrivent en France le 2 mai 2016.
 
+Pour détecter des conflits potentiels entre vols qui suivent le même trajet en sens inverse le même jour et à un même niveau, nous pouvons utiliser une requête SQL qui compare les vols entre eux.
+
+Voici une requête SQL qui fournit la liste des couples (Id1, Id2) des identifiants des vols dans cette situation :
+
+SQL
+SELECT v1.id_vol AS Id1, v2.id_vol AS Id2
+FROM vol v1
+JOIN vol v2 ON v1.depart = v2.arrivee AND v1.arrivee = v2.depart
+WHERE v1.jour = v2.jour 
+  AND v1.niveau = v2.niveau
+  AND v1.id_vol < v2.id_vol;
+Explications
+JOIN vol v2 ON v1.depart = v2.arrivee AND v1.arrivee = v2.depart :
+
+Cette jointure permet de trouver les vols (v2) qui suivent le trajet inverse des vols (v1).
+WHERE v1.jour = v2.jour :
+
+Cette condition assure que les deux vols ont lieu le même jour.
+AND v1.niveau = v2.niveau :
+
+Cette condition assure que les deux vols se trouvent au même niveau de vol.
+AND v1.id_vol < v2.id_vol :
+
+Cette condition assure que chaque paire de vols est listée une seule fois en évitant les doublons (par exemple, (Id1, Id2) et (Id2, Id1)).
+Cette requête permet de détecter les conflits potentiels entre vols qui suivent le même trajet en sens inverse le même jour et à un même niveau, en listant les couples d'identifiants de vols concernés.
+
+
+
