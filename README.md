@@ -201,3 +201,19 @@ n
 
 
 
+
+
+## Utilisation (code fonctionnel)
+
+Tout le code Python est regroupé dans `prevention_collisions.py` (les anciens scripts dispersés, qui dépendaient de variables globales non définies, ont été supprimés).
+
+```
+python3 main.py                              # démonstration complète
+python3 -m unittest test_prevention_collisions -v   # tests
+```
+
+- `enregistrer_plan_de_vol` : validation (aéroports, horaires, niveau) et refus des doublons.
+- `attribuer_couloir_aerien` : couloir par niveau de vol (`None` si aucun compatible).
+- `detecter_collision` : conflit s'il y a perte de séparation verticale (< 1000 ft) **et** horizontale (< 5 NM) sur des trajectoires rectilignes ; gère les arrivées le lendemain et les routes quelconques.
+- `matrice_conflit`, `nb_conflits`, `cout_regulation`, `cout_rfl`, `nb_vol_par_niveau_relatif` : graphe de conflits 3n×3n (niveaux relatifs RFL, RFL+10, RFL-10).
+- `minimal` (heuristique gloutonne) et `regulation_optimale` (optimum exact, petites instances) ; `appliquer_regulation` applique le résultat aux vols.
